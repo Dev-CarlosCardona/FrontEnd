@@ -1,6 +1,10 @@
 <<<<<<< HEAD
 # Prueba_Tecnica
 Software inventario cafeteria
+
+#en el apartado de .env solo colocarian la ip del dispositivo en el que lo va ejecutar 
+SE INICIARIA A CORRER EL PROYECTO CON EL COMANDO "npm start"
+
 =======
 # Getting Started with Create React App
 
