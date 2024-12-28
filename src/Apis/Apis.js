@@ -27,12 +27,13 @@ export const AllProduct = async () => {
 export const AllProductStock = async () => {
     try {
         const res = await axios.get(Apis.AllProductStock);
-        return res.data;
+        return Array.isArray(res.data) ? res.data : []; // Devuelve un arreglo siempre
     } catch (error) {
         console.error('Error al buscar AllProductStock:', error.message);
         throw new Error('Error al obtener los productos. Verifica la conexión.');
     }
 };
+
 
 export const RegisterProduct = async (data) => {
     try {
