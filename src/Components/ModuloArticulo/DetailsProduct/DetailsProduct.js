@@ -9,7 +9,7 @@ const DetailsProduct = ({ Modal, UpdateProducto, product, openDetailsProduct, ha
         Categoria: '',
         Estado_Producto: '',
         Cantidad: ''
-    });
+    }); 
 
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
