@@ -10,18 +10,26 @@ const ModuloVenta = () => {
     // Obtener los productos del backend
     const getAllT_ProductStock = useCallback(async () => {
         setIsLoading(true);
-    
         try {
             const DATA = await AllProductStock();
-            console.log("Datos cargados:", DATA); // Verifica que los productos tengan el campo `id`
-            setDataProductStock(DATA);
+            console.log("Datos cargados:", DATA);
+            if (Array.isArray(DATA)) {
+                setDataProductStock(DATA); // Solo asigna si es un arreglo
+            } else {
+                console.error("Los datos recibidos no son un arreglo:", DATA);
+                setDataProductStock([]); // Asigna un arreglo vacío como fallback
+            }
         } catch (error) {
-            console.error(error.message);
-            alert('Error al obtener los productos. Intente nuevamente.');
+            console.error("Error al obtener productos:", error.message);
+            alert("Error al obtener los productos. Intente nuevamente.");
+            setDataProductStock([]); // Asegúrate de asignar un arreglo vacío en caso de error
         } finally {
             setIsLoading(false);
         }
     }, []);
+
+
+
 
     useEffect(() => {
         getAllT_ProductStock();
@@ -33,26 +41,35 @@ const ModuloVenta = () => {
             alert('Seleccione un producto válido.');
             return;
         }
-    
-        console.log("Producto seleccionado:", selectedProduct); // Verifica el objeto completo
-    
+
+        console.log("Producto seleccionado para actualizar:", selectedProduct);
+
         try {
             const updatedProduct = {
-                ...selectedProduct,
-                Estado_Producto: 'NO DISPONIBLE', // Cambiar el estado a "NO DISPONIBLE"
+                Nombre_Producto: selectedProduct.Nombre_Producto,
+                Referencia: selectedProduct.Referencia,
+                Precio: selectedProduct.Precio,
+                Peso: selectedProduct.Peso,
+                Categoria: selectedProduct.Categoria,
+                Estado_Producto: 'NO DISPONIBLE', // Cambiar estado
+                Cantidad: selectedProduct.Cantidad || 0, // Valor por defecto
             };
-    
-            await UpdateProduct(selectedProduct.id, updatedProduct); // Asegúrate de que `id` no sea undefined
-    
+
+            console.log("Datos enviados al backend:", updatedProduct);
+
+            await UpdateProduct(selectedProduct.id, updatedProduct);
             alert('Compra realizada exitosamente. Producto actualizado.');
             getAllT_ProductStock();
-            setSelectedProduct(null); // Reinicia el producto seleccionado
+            setSelectedProduct(null);
         } catch (error) {
             console.error('Error al realizar la compra:', error.message);
             alert('Error al confirmar la compra. Intente nuevamente.');
         }
     };
-    
+
+
+
+
 
     return (
         <>
@@ -69,19 +86,22 @@ const ModuloVenta = () => {
                     <select
                         className="form-control"
                         onChange={(e) => {
-                            const selectedId = parseInt(e.target.value, 10);
-                            const product = dataProductStock.find((p) => p.id === selectedId);
-                            setSelectedProduct(product); // Actualiza el estado con el producto seleccionado
+                            const selectedId = e.target.value;
+                            const product = dataProductStock.find((p) => String(p.id) === selectedId);
+                            setSelectedProduct(product);
                         }}
                         value={selectedProduct?.id || ''}
                     >
                         <option value="">Seleccione un producto</option>
-                        {dataProductStock.map((product) => (
+                        {Array.isArray(dataProductStock) && dataProductStock.map((product) => (
                             <option key={product.id} value={product.id}>
                                 {product.Nombre_Producto} - Precio: {product.Precio}
                             </option>
                         ))}
                     </select>
+
+
+
                 </div>
                 <button
                     className="btn btn-success"
