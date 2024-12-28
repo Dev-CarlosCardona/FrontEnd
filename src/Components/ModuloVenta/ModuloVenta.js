@@ -16,7 +16,7 @@ const ModuloVenta = () => {
             if (Array.isArray(DATA)) {
                 setDataProductStock(DATA); // Solo asigna si es un arreglo
             } else {
-                console.error("Los datos recibidos no son un arreglo:", DATA);
+                console.error("Los datos recibidos no son un arreglo:", DATA); 
                 setDataProductStock([]); // Asigna un arreglo vacío como fallback
             }
         } catch (error) {
