@@ -12,11 +12,10 @@ const ModuloVenta = () => {
         setIsLoading(true);
         try {
             const DATA = await AllProductStock();
-            console.log("Datos cargados:", DATA);
             if (Array.isArray(DATA)) {
                 setDataProductStock(DATA); // Solo asigna si es un arreglo
             } else {
-                console.error("Los datos recibidos no son un arreglo:", DATA); 
+                console.error("Los datos recibidos no son un arreglo:", DATA);
                 setDataProductStock([]); // Asigna un arreglo vacío como fallback
             }
         } catch (error) {
@@ -42,7 +41,6 @@ const ModuloVenta = () => {
             return;
         }
 
-        console.log("Producto seleccionado para actualizar:", selectedProduct);
 
         try {
             const updatedProduct = {
@@ -55,7 +53,6 @@ const ModuloVenta = () => {
                 Cantidad: selectedProduct.Cantidad || 0, // Valor por defecto
             };
 
-            console.log("Datos enviados al backend:", updatedProduct);
 
             await UpdateProduct(selectedProduct.id, updatedProduct);
             alert('Compra realizada exitosamente. Producto actualizado.');
