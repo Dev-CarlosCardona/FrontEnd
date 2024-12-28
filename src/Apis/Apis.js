@@ -9,7 +9,7 @@ const Apis = {
     UpdateProduct: (id) => `http://${Servidor}/API/PUT/UPDATE-PRODUCT/${id}`,
     DeleteProduct: (id) => `http://${Servidor}/API/DELETE/PRODUCT-DELETE/${id}`,
     AllProductStock: `http://${Servidor}/API/GET/LIST/INVENTORY/STOCK/`,
-};
+}; 
 
 
 
