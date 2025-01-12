@@ -24,6 +24,17 @@ const ModuloVenta = () => {
                  * De esta manera, solo se mostrarán productos disponibles para vender.
                  */
                 const productsWithStock = DATA.filter((product) => product.Cantidad > 0);
+
+                if (productsWithStock.length === 0) {
+                    // Si no hay productos con stock, mostramos una alerta personalizada
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Sin productos disponibles',
+                        text: 'Actualmente no hay productos en stock para realizar una venta.',
+                        confirmButtonText: 'Aceptar',
+                    });
+                }
+
                 setDataProductStock(productsWithStock);
             } else {
                 console.error("Los datos recibidos no son un arreglo:", DATA);
@@ -31,13 +42,20 @@ const ModuloVenta = () => {
             }
         } catch (error) {
             console.error("Error al obtener productos:", error.message);
-            alert("Error al obtener los productos. Intente nuevamente.");
+            // Usamos SweetAlert para mostrar el error de forma amigable
+            Swal.fire({
+                icon: 'info',
+                title: 'Sin productos disponibles',
+                text: 'Actualmente no hay productos en stock para realizar una venta.',
+                confirmButtonText: 'Aceptar',
+            });
             setDataProductStock([]);
         } finally {
             // Independientemente del resultado, quitamos el estado de carga
             setIsLoading(false);
         }
     }, []);
+
 
     /**
      * useEffect que se ejecuta cuando el componente se monta,
