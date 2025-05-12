@@ -1,5 +1,5 @@
 <<<<<<< HEAD
-# Prueba_Tecnica
+# FrontEnd
 Software inventario cafeteria
 
 #en el apartado de .env solo colocarian la ip del dispositivo en el que lo va ejecutar 
